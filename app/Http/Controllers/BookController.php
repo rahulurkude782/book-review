@@ -59,7 +59,7 @@ class BookController extends Controller
         $book = cache()->remember(
             $cacheKey,
             60,
-            fn() => Book::with('reviews')
+            fn() => Book::with(['reviews' => fn(Builder $query) => $query->latest()])
                 ->withReviewsCount()
                 ->withAvgRating()
                 ->findOrFail($id)
